@@ -1,6 +1,6 @@
 # belly-button-challenge
 <figure>
-![Belly Button Biodiversity](./images/BellyButtonBiodiversity.png)
+<img src="./images/BellyButtonBiodiversity.png" alt="Belly Button Biodiversity Showcase">
 <figcaption>Image captured from https://robdunnlab.com/projects/belly-button-biodiversity/</figcaption>
 </figure>
 The task for this challenge is to use the D3 library with plotly.js and html to build an interactive dashboard to explore the [Belly Button Biodiversity dataset](http://robdunnlab.com/projects/belly-button-biodiversity/). This dataset catalogs the microbes that colonize human navels and reveals that a small handful of microbial species (also called operational taxonomic units, or OTUs, in the study) were present in more than 70% of people, while the rest were relatively rare.</br></br>
