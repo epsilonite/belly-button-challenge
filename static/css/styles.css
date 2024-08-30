@@ -1,3 +1,5 @@
 .container { font-family: "Open Sans", verdana, arial, sans-serif; }
 .card-title { margin-bottom: 0px; }
+.ytick { margin-right:6px; }
 #selDataset, #sample-metadata p { font-size: 14px; margin:0px; }
+#sample-metadata p span { font-size: 12px; }
