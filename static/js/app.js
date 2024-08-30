@@ -1,30 +1,27 @@
-// define json 
+// Define json 
 const json = d3.json('https://static.bc-edx.com/data/dl-1-2/m14/lms/starter/samples.json');
 
 // Function to run on page load
 function init() {
   json.then( data => {
-    // Loop through the list of sample names data.names using foreach
-    data.names.forEach(
-      // append a new option for each sample name inside #selDataset
+    data.names.forEach( // Loop through data.names (list of sample names)
       id => d3.select('#selDataset').append('option').attr('value',id).html(id));
-    // Get the first sample from the list
-    let id = d3.select('#selDataset').property("value");
+    // append a new option for each sample name inside #selDataset
+    let sample = d3.select('#selDataset').property("value"); // Get the first sample from the list
     // Build charts and metadata panel with the first sample
-    buildCharts(id,data);
-    buildMetadata(id,data);
+    buildCharts(sample,data);
+    buildMetadata(sample,data);
   });
 }
 
 // Build the metadata panel
 function buildMetadata(id,data) {
-  // get the metadata field and filter for the object with the desired sample number
-  let metadata = data.metadata.filter(row => row.id==id)[0];
-  // Use d3 to select the panel with id of `#sample-metadata`and reset the html
-  d3.select("#sample-metadata").html('');
-  // Loop through the dictionary of metadata and insert keys and values as html
-  Object.entries(metadata).forEach( 
-  ([key,value]) => d3.select("#sample-metadata").append('p').html(`${key.toUpperCase()}: ${value}`));
+  let metadata = data.metadata.filter(row => row.id==id)[0]; // filter data.metadata for given sample number
+  // Use d3 to select `#sample-metadata` and reset the html
+  d3.select("#sample-metadata").html(''); // clear values 
+  Object.entries(metadata).forEach( // Loop through metadata (dictionary)
+    ([key,value]) => d3.select("#sample-metadata").append('p').html(`${key.toUpperCase()}: ${value}`));
+  // Use d3 to select `#sample-metadata` and append `key: value`s
 }
 
 // Function to build both charts
@@ -39,10 +36,7 @@ function buildCharts(id,data) {
       y: sampleData.sample_values,
       text: sampleData.otu_labels,
       mode: 'markers',
-      marker: {
-        color: sampleData.otu_ids,
-        size: sampleData.sample_values
-      }
+      marker: {color: sampleData.otu_ids, size: sampleData.sample_values}
     };
     var dataBubble = [traceBubble];
     var layoutBubble = {
@@ -64,7 +58,6 @@ function buildCharts(id,data) {
     };
     // Data array
     let dataBar = [traceBar];
-    // Apply a title to the layout
     let layoutBar = {
       title: "Top 10 Bacteria Cultures Found",
       margin: {
@@ -78,6 +71,7 @@ function buildCharts(id,data) {
     Plotly.newPlot('bar', dataBar, layoutBar);
 }
 
+// Function to slice sample data for bar chart
 function buildBarData(sampleData) {
   let sampleDict = [];
   sampleData.otu_ids.forEach(id => {
@@ -93,7 +87,6 @@ function buildBarData(sampleData) {
   return slice;
 }
 
-
 // Function for event listener
 function optionChanged(newSample) {
   json.then( data => {
@@ -105,16 +98,13 @@ function optionChanged(newSample) {
     Plotly.restyle("bubble", 'y', [newData.sample_values]);
     Plotly.restyle("bubble", 'text', [newData.otu_labels]);
     Plotly.restyle("bubble", 'marker', [{color: newData.otu_ids, size: newData.sample_values}]);
-
     // Redraw Bar Chart
     let barData = buildBarData(newData);
     Plotly.restyle("bar", "x", [barData.map(row => row.sample_values)]);
     Plotly.restyle("bar", "y", [barData.map(row => `OTU ${row.otu_ids}`)]);
     Plotly.restyle("bar", "text", [barData.map(row => row.otu_labels)]);
-
     //Update metadata
     buildMetadata(newSample);
-
   });
 }
 
