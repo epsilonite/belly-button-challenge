@@ -53,7 +53,7 @@ function buildCharts(id,data) {
     let barData = buildBarData(sampleData);
     let traceBar = {
       x: barData.map(row => row.sample_values),
-      y: barData.map(row => `OTU ${row.otu_ids}`),
+      y: barData.map(row => `OTU ${row.otu_ids} `),
       text: barData.map(row => row.otu_labels),
       name: "Bacteria Cultures",
       type: "bar",
