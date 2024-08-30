@@ -11,29 +11,24 @@ function init() {
     // Get the first sample from the list
     let id = d3.select('#selDataset').property("value");
     // Build charts and metadata panel with the first sample
-    buildCharts(id);
-    buildMetadata(id);
+    buildCharts(id,data);
+    buildMetadata(id,data);
   });
 }
 
 // Build the metadata panel
-function buildMetadata(id) {
-  json.then( data => {
-    // get the metadata field
-    // Filter the metadata for the object with the desired sample number
-    let metadata = data.metadata.filter(row => row.id==id)[0];
-    console.log(metadata);
-    // Use d3 to select the panel with id of `#sample-metadata`
-    d3.select("#sample-metadata").html('');
-    Object.entries(metadata).forEach( 
-      ([key,value]) => d3.select("#sample-metadata").append('p').html(`${key.toUpperCase()}: ${value}`));
-  });
+function buildMetadata(id,data) {
+  // get the metadata field and filter for the object with the desired sample number
+  let metadata = data.metadata.filter(row => row.id==id)[0];
+  // Use d3 to select the panel with id of `#sample-metadata`and reset the html
+  d3.select("#sample-metadata").html('');
+  // Loop through the dictionary of metadata and insert keys and values as html
+  Object.entries(metadata).forEach( 
+  ([key,value]) => d3.select("#sample-metadata").append('p').html(`${key.toUpperCase()}: ${value}`));
 }
 
-// function to build both charts
-function buildCharts(id) {
-  json.then( data => {
-
+// Function to build both charts
+function buildCharts(id,data) {
     // Filter the samples for the object with the desired sample number
     let sampleData = data.samples.filter(row => row.id==id)[0];
     // console.log(sampleData);
@@ -70,7 +65,7 @@ function buildCharts(id) {
     // Data array
     let dataBar = [traceBar];
     // Apply a title to the layout
-    let layout = {
+    let layoutBar = {
       title: "Top 10 Bacteria Cultures Found",
       margin: {
         l: 100,
@@ -80,8 +75,7 @@ function buildCharts(id) {
       }
     };
     // Render the Bar Chart
-    Plotly.newPlot("bar", dataBar, layout);
-  });
+    Plotly.newPlot('bar', dataBar, layoutBar);
 }
 
 function buildBarData(sampleData) {
