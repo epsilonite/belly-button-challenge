@@ -1,1 +1,2 @@
-
+.container{ font-family: "Open Sans", verdana, arial, sans-serif; }
+#selDataset, #sample-metadata p { font-size: 17px; margin:0px; }
