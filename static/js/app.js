@@ -57,7 +57,7 @@ function buildCharts(id,data) {
       name: "Bacteria Cultures",
       type: "bar",
       orientation: "h",
-      marker: {color: sampleData.otu_ids}
+      marker: {color: barData.map(row => row.otu_ids)}
     };
     // Data array
     let dataBar = [traceBar];
@@ -102,6 +102,7 @@ function optionChanged(newSample) {
     Plotly.restyle("bar", "x", [barData.map(row => row.sample_values)]);
     Plotly.restyle("bar", "y", [barData.map(row => `OTU ${row.otu_ids}`)]);
     Plotly.restyle("bar", "text", [barData.map(row => row.otu_labels)]);
+    Plotly.restyle("bar", 'marker', [{color: barData.map(row => row.otu_ids)}]);
     //Update metadata
     buildMetadata(newSample);
   });
