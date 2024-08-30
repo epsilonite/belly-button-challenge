@@ -12,9 +12,6 @@ function init() {
     buildCharts(sample,data);
     buildMetadata(sample,data);
   });
-  const style = document.createElement("style")
-  style.textContent = "#bar,#bubble {border:1px solid rgba(0,0,0,0.175); border-radius:0.375em; min-height:100%;}"
-  document.head.appendChild(style)
 }
 
 // Build the metadata panel
@@ -45,6 +42,8 @@ function buildCharts(id,data) {
     var layoutBubble = {
       title: 'Bacteria Cultures Per Sample',
       showlegend: false,
+      xaxis.title.text: 'OTU ID',
+      yaxis.title.text: 'Number of Bacteria'
     };
     // Render the Bubble Chart
     Plotly.newPlot('bubble', dataBubble, layoutBubble);
