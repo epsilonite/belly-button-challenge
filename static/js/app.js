@@ -11,7 +11,7 @@ function init() {
     // Build charts and metadata panel with the first sample
     buildCharts(sample,data);
     buildMetadata(sample,data);
-    console.log(data.samples.map(row => row.otu_ids).sort( (x1,x2) => x2-x1 ));
+    console.log(Array.from(new Set(data.samples.map(row => row.otu_ids))).sort( (x1,x2) => x2-x1 ));
   });
 }
 
