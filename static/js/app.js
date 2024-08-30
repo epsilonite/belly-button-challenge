@@ -11,7 +11,6 @@ function init() {
     // Build charts and metadata panel with the first sample
     buildCharts(sample,data);
     buildMetadata(sample,data);
-    console.log(Array.from(new Set(Array.prototype.concat.apply([],data.samples.map(row => row.otu_ids)))).sort( (x1,x2) => x2-x1 ));
   });
 }
 
@@ -38,7 +37,7 @@ function buildCharts(id,data) {
       text: sampleData.otu_labels,
       mode: 'markers',
       marker: {color: sampleData.otu_ids, size: sampleData.sample_values,
-               colorscale: 'Portland', colorbar: {tickvals: [2,3663]}} // Specific ticks on the color bar
+               colorscale: 'portland', colorbar: {tickvals: [2,3663]}} // Specific ticks on the color bar
     };
     var dataBubble = [traceBubble];
     var layoutBubble = {
@@ -59,7 +58,7 @@ function buildCharts(id,data) {
       name: "Bacteria Cultures",
       type: "bar",
       orientation: "h",
-      marker: {color: barData.map(row => row.otu_ids), colorscale: 'Portland', colorbar: {tickvals: [2,3663]}}
+      marker: {color: barData.map(row => row.otu_ids), colorscale: 'portland', colorbar: {tickvals: [2,3663]}}
     };
     // Data array
     let dataBar = [traceBar];
