@@ -42,8 +42,8 @@ function buildCharts(id,data) {
     var layoutBubble = {
       title: 'Bacteria Cultures Per Sample',
       showlegend: false,
-      xaxis.title.text: 'OTU ID',
-      yaxis.title.text: 'Number of Bacteria'
+      xaxis: {title:{text:'OTU ID'}},
+      yaxis: {title:{text:'Number of Bacteria'}}
     };
     // Render the Bubble Chart
     Plotly.newPlot('bubble', dataBubble, layoutBubble);
