@@ -31,22 +31,23 @@ function buildCharts(id,data) {
     // console.log(sampleData);
 
    // Build a Bubble Chart
-    var traceBubble = {
+    let traceBubble = {
       x: sampleData.otu_ids,
       y: sampleData.sample_values,
       text: sampleData.otu_labels,
       mode: 'markers',
       marker: {color: sampleData.otu_ids, size: sampleData.sample_values, colorscale:'portland'} // Specific ticks on the color bar
     };
-    var dataBubble = [traceBubble];
-    var layoutBubble = {
+    let dataBubble = [traceBubble];
+    let layoutBubble = {
       title: 'Bacteria Cultures Per Sample',
       showlegend: false,
       xaxis: {title:{text:'OTU ID'}},
       yaxis: {title:{text:'Number of Bacteria'}}
     };
+    let config = {responsive: true};
     // Render the Bubble Chart
-    Plotly.newPlot('bubble', dataBubble, layoutBubble);
+    Plotly.newPlot('bubble', dataBubble, layoutBubble, config);
 
     // Build a Bar Chart
     let barData = buildBarData(sampleData);
@@ -57,7 +58,7 @@ function buildCharts(id,data) {
       name: "Bacteria Cultures",
       type: "bar",
       orientation: "h",
-      marker: {color: barData.map(row => row.otu_ids), colorscale:'portland'}
+      marker: { color: barData.map(row => row.otu_ids), colorscale:'portland', colorbar:{tickvals:[2,3663]} }
     };
     // Data array
     let dataBar = [traceBar];
@@ -67,7 +68,7 @@ function buildCharts(id,data) {
       margin: {l: 100, r: 100, t: 100, b: 100}
     };
     // Render the Bar Chart
-    Plotly.newPlot('bar', dataBar, layoutBar);
+    Plotly.newPlot('bar', dataBar, layoutBar, config);
 }
 
 // Function to slice sample data for bar chart
@@ -95,13 +96,13 @@ function optionChanged(newSample) {
     Plotly.restyle("bubble", 'x', [newData.otu_ids]);
     Plotly.restyle("bubble", 'y', [newData.sample_values]);
     Plotly.restyle("bubble", 'text', [newData.otu_labels]);
-    Plotly.restyle("bubble", 'marker', [{color: newData.otu_ids, size: newData.sample_values, colorscale:'portland'}]);
+    Plotly.restyle("bubble", 'marker', [{ color: newData.otu_ids, size: newData.sample_values, colorscale:'portland' }]);
     // Redraw Bar Charts
     let barData = buildBarData(newData);
     Plotly.restyle("bar", "x", [barData.map(row => row.sample_values)]);
     Plotly.restyle("bar", "y", [barData.map(row => `OTU ${row.otu_ids} `)]);
     Plotly.restyle("bar", "text", [barData.map(row => row.otu_labels)]);
-    Plotly.restyle("bar", 'marker', [{color: barData.map(row => row.otu_ids), colorscale:'portland'}]);
+    Plotly.restyle("bar", 'marker', [{ color: barData.map(row => row.otu_ids), colorscale:'portland', colorbar:{tickvals:[2,3663]} }]);
     //Update metadata
     buildMetadata(newSample,data);
   });
