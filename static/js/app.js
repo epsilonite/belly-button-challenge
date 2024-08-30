@@ -56,14 +56,15 @@ function buildCharts(id,data) {
       text: barData.map(row => row.otu_labels),
       name: "Bacteria Cultures",
       type: "bar",
-      orientation: "h"
+      orientation: "h",
+      marker: {color: sampleData.otu_ids}
     };
     // Data array
     let dataBar = [traceBar];
     let layoutBar = {
       title: "Top 10 Bacteria Cultures Found",
       xaxis: {title:{text:'Number of Bacteria'}},
-      margin: {l: 10, r: 10, t: 10, b: 10}
+      margin: {l: 100, r: 100, t: 100, b: 100}
     };
     // Render the Bar Chart
     Plotly.newPlot('bar', dataBar, layoutBar);
