@@ -36,8 +36,7 @@ function buildCharts(id,data) {
       y: sampleData.sample_values,
       text: sampleData.otu_labels,
       mode: 'markers',
-      marker: {color: sampleData.otu_ids, size: sampleData.sample_values,
-               colorscale: 'portland', colorbar: {tickvals: [2,3663]}} // Specific ticks on the color bar
+      marker: {color: sampleData.otu_ids, size: sampleData.sample_values, colorbar: {tickvals: [2,3663]}} // Specific ticks on the color bar
     };
     var dataBubble = [traceBubble];
     var layoutBubble = {
@@ -58,7 +57,7 @@ function buildCharts(id,data) {
       name: "Bacteria Cultures",
       type: "bar",
       orientation: "h",
-      marker: {color: barData.map(row => row.otu_ids), colorscale: 'portland', colorbar: {tickvals: [2,3663]}}
+      marker: {color: barData.map(row => row.otu_ids), colorbar: {tickvals: [2,3663]}}
     };
     // Data array
     let dataBar = [traceBar];
@@ -96,13 +95,13 @@ function optionChanged(newSample) {
     Plotly.restyle("bubble", 'x', [newData.otu_ids]);
     Plotly.restyle("bubble", 'y', [newData.sample_values]);
     Plotly.restyle("bubble", 'text', [newData.otu_labels]);
-    Plotly.restyle("bubble", 'marker', [{color: newData.otu_ids, size: newData.sample_values, colorscale: 'portland', colorbar: {tickvals: [2,3663]}}]);
+    Plotly.restyle("bubble", 'marker', [{color: newData.otu_ids, size: newData.sample_values, colorbar: {tickvals: [2,3663]}}]);
     // Redraw Bar Charts
     let barData = buildBarData(newData);
     Plotly.restyle("bar", "x", [barData.map(row => row.sample_values)]);
     Plotly.restyle("bar", "y", [barData.map(row => `OTU ${row.otu_ids} `)]);
     Plotly.restyle("bar", "text", [barData.map(row => row.otu_labels)]);
-    Plotly.restyle("bar", 'marker', [{color: barData.map(row => row.otu_ids), colorscale: 'portland', colorbar: {tickvals: [2,3663]}}]);
+    Plotly.restyle("bar", 'marker', [{color: barData.map(row => row.otu_ids), colorbar: {tickvals: [2,3663]}}]);
     //Update metadata
     buildMetadata(newSample,data);
   });
