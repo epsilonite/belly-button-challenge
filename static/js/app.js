@@ -20,7 +20,7 @@ function buildMetadata(id,data) {
   // Use d3 to select `#sample-metadata` and reset the html
   d3.select("#sample-metadata").html(''); // clear values 
   Object.entries(metadata).forEach( // Loop through metadata (dictionary)
-    ([key,value]) => d3.select("#sample-metadata").append('p').html(`${key.toUpperCase()}: ${value}`));
+    ([key,value]) => d3.select("#sample-metadata").append('p').html(`<span>${key.toUpperCase()}:</span> ${value}`));
   // Use d3 to select `#sample-metadata` and append `key: value`s
 }
 
