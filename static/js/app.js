@@ -83,7 +83,7 @@ function buildBarData(sampleData) {
     sampleDict.push(dict);
   });
   let slice = sampleDict.sort((x1,x2) => x2.sample_values-x1.sample_values).slice(0,10).reverse();
-  return slice;
+  return slice;s
 }
 
 // Function for event listener
@@ -91,20 +91,19 @@ function optionChanged(newSample) {
   json.then( data => {
     // Build charts and metadata panel each time a new sample is selected
     let newData = data.samples.filter(row => row.id==newSample)[0];
-    console.log(newData);
     // Redraw Bubble Chart
     Plotly.restyle("bubble", 'x', [newData.otu_ids]);
     Plotly.restyle("bubble", 'y', [newData.sample_values]);
     Plotly.restyle("bubble", 'text', [newData.otu_labels]);
     Plotly.restyle("bubble", 'marker', [{color: newData.otu_ids, size: newData.sample_values}]);
-    // Redraw Bar Chart
+    // Redraw Bar Charts
     let barData = buildBarData(newData);
     Plotly.restyle("bar", "x", [barData.map(row => row.sample_values)]);
     Plotly.restyle("bar", "y", [barData.map(row => `OTU ${row.otu_ids}`)]);
     Plotly.restyle("bar", "text", [barData.map(row => row.otu_labels)]);
     Plotly.restyle("bar", 'marker', [{color: barData.map(row => row.otu_ids)}]);
     //Update metadata
-    buildMetadata(newSample);
+    buildMetadata(newSample,data);
   });
 }
 
