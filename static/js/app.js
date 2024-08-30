@@ -62,12 +62,8 @@ function buildCharts(id,data) {
     let dataBar = [traceBar];
     let layoutBar = {
       title: "Top 10 Bacteria Cultures Found",
-      margin: {
-        l: 100,
-        r: 100,
-        t: 100,
-        b: 100
-      }
+      xaxis: {title:{text:'Number of Bacteria'}},
+      margin: {l: 10, r: 10, t: 10, b: 10}
     };
     // Render the Bar Chart
     Plotly.newPlot('bar', dataBar, layoutBar);
