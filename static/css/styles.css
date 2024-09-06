@@ -2,3 +2,4 @@
 .card-title { margin-bottom: 0px; }
 #selDataset, #sample-metadata p { font-size: 14px; margin:0px; }
 #sample-metadata p span { font-size: 12px; }
+.bg-med { background-color:#888; color:white;}
