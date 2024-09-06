@@ -16,12 +16,13 @@ function init() {
 
 // Build the metadata panel
 function buildMetadata(id,data) {
-  let metadata = data.metadata.filter(row => row.id==id)[0]; // filter data.metadata for given sample number
+  // filter data.metadata for given sample number
+  let metadata = data.metadata.filter(row => row.id==id)[0];
   // Use d3 to select `#sample-metadata` and reset the html
-  d3.select("#sample-metadata").html(''); // clear values 
-  Object.entries(metadata).forEach( // Loop through metadata (dictionary)
+  d3.select("#sample-metadata").html('');
+  // Loop through metadata (dictionary) use d3 to select `#sample-metadata` and append `key: value`s
+  Object.entries(metadata).forEach(
     ([key,value]) => d3.select("#sample-metadata").append('p').html(`<span>${key.toUpperCase()}:</span> ${value}`));
-  // Use d3 to select `#sample-metadata` and append `key: value`s
 }
 
 // Function to build both charts
@@ -30,13 +31,16 @@ function buildCharts(id,data) {
     let sampleData = data.samples.filter(row => row.id==id)[0];
     // console.log(sampleData);
 
-   // Build a Bubble Chart
+    // Set config to be responsive
+    let config = {responsive: true};
+
+    // Build a Bubble Chart
     let traceBubble = {
       x: sampleData.otu_ids,
       y: sampleData.sample_values,
-      text: sampleData.otu_labels,
+      text: sampleData.otu_labels.map(str => str.replaceAll(';','<br>')),
       mode: 'markers',
-      marker: {color: sampleData.otu_ids, size: sampleData.sample_values, colorscale:"Portland", cmin:2, cmax:3663 } // Specific ticks on the color bar
+      marker: {color: sampleData.otu_ids, size: sampleData.sample_values, colorscale:"Portland", cmin:2, cmax:3663 }
     };
     let dataBubble = [traceBubble];
     let layoutBubble = {
@@ -45,7 +49,6 @@ function buildCharts(id,data) {
       xaxis: {title:{text:'OTU ID'}},
       yaxis: {title:{text:'Number of Bacteria'}}
     };
-    let config = {responsive: true};
     // Render the Bubble Chart
     Plotly.newPlot('bubble', dataBubble, layoutBubble, config);
 
@@ -54,7 +57,7 @@ function buildCharts(id,data) {
     let traceBar = {
       x: barData.map(row => row.sample_values),
       y: barData.map(row => `OTU ${row.otu_ids} `),
-      text: barData.map(row => row.otu_labels),
+      text: (barData.map(row => row.otu_labels).map(str => str.replaceAll(';','<br>'))),
       name: "Bacteria Cultures",
       type: "bar",
       orientation: "h",
@@ -95,13 +98,13 @@ function optionChanged(newSample) {
     // Redraw Bubble Chart
     Plotly.restyle("bubble", 'x', [newData.otu_ids]);
     Plotly.restyle("bubble", 'y', [newData.sample_values]);
-    Plotly.restyle("bubble", 'text', [newData.otu_labels]);
+    Plotly.restyle("bubble", 'text', [newData.otu_labels.map(str => str.replaceAll(';','<br>'))]);
     Plotly.restyle("bubble", 'marker', [{ color: newData.otu_ids, size: newData.sample_values, colorscale:"Portland", cmin:2, cmax:3663 }]);
     // Redraw Bar Charts
     let barData = buildBarData(newData);
     Plotly.restyle("bar", "x", [barData.map(row => row.sample_values)]);
     Plotly.restyle("bar", "y", [barData.map(row => `OTU ${row.otu_ids} `)]);
-    Plotly.restyle("bar", "text", [barData.map(row => row.otu_labels)]);
+    Plotly.restyle("bar", "text", [(barData.map(row => row.otu_labels).map(str => str.replaceAll(';','<br>')))]);
     Plotly.restyle("bar", 'marker', [{ color: barData.map(row => row.otu_ids), colorscale:"Portland", cmin:2, cmax:3663 }]);
     //Update metadata
     buildMetadata(newSample,data);
